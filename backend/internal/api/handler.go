@@ -6,7 +6,7 @@ import (
 	"vistardb/internal/cluster"
 )
 
-func NewRouter(node *cluster.Node) *http.ServeMux {
+func NewRouter(node *cluster.Node) http.Handler {
 	mux := http.NewServeMux()
 	
 	mux.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
@@ -71,5 +71,6 @@ func NewRouter(node *cluster.Node) *http.ServeMux {
 		}
 	})
 	
-	return mux
+	// Wrap the mux with CORS middleware
+	return CORS(mux)
 }
